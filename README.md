@@ -51,6 +51,31 @@ tripmind-ai/
 └── README.md
 ```
 
-## Important note about travel pricing
+## Architecture
 
-The planner produces **planning estimates**, not bookable airline/hotel inventory. The included provider buttons open current searches on Google Flights, Booking.com and Google Maps. This keeps the project deployable without paid travel-data contracts while still providing a real end-to-end product. For production booking, plug a licensed inventory provider into the agent service.
+                    ┌─────────────────┐
+                    │   User Request  │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ AI ORCHESTRATOR │
+                    └────────┬────────┘
+                             │
+          ┌──────────────────┼──────────────────┐
+          ▼                  ▼                  ▼
+    ┌───────────┐      ┌───────────┐      ┌────────────┐
+    │  Flights  │      │   Stays   │      │ Activities │
+    │   Agent   │      │   Agent   │      │   Agent    │
+    └─────┬─────┘      └─────┬─────┘      └──────┬─────┘
+          │                  │                    │
+          └──────────────────┼────────────────────┘
+                             ▼
+                    ┌─────────────────┐
+                    │  Budget Agent   │
+                    └────────┬────────┘
+                             ▼
+                    ┌─────────────────┐
+                    │ Complete Trip   │
+                    │   Itinerary     │
+                    └─────────────────┘
